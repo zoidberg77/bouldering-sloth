@@ -1,4 +1,4 @@
-const base_url = 'http://boulder.sidak.xyz'
+const base_url = 'https://boulder.sidak.xyz'
 
 async function init() {
 
