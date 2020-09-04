@@ -20,10 +20,10 @@ async function init() {
         }
     }
 
-    document.getElementById('best').innerHTML = best_name+ " wins!";
+    document.getElementById('best').innerHTML = best_name + " wins!";
 
     const svgHeight = 200;
-    const svgWidth = 500;
+    const svgWidth = 600;
     const labelsHeight = 30; //free space for labels.
     const barsHeight = svgHeight - labelsHeight;
     const barsWidth = 80;
@@ -47,7 +47,7 @@ async function init() {
         .append("svg:rect")
         .attr("x",
             function (d, i) {
-                return i * (barsWidth + offset)+30;
+                return i * (barsWidth + offset) + 70;
             })
         .attr("y",
             function (d) {
@@ -71,7 +71,7 @@ async function init() {
             })
         .attr("x",
             function (d, i) {
-                return i * (barsWidth + offset)+30;
+                return i * (barsWidth + offset) + 70;
             })
         .attr("y", barsHeight + 20);
 
@@ -83,8 +83,16 @@ async function init() {
         .scale(scale);
 
     mySvg.append("g")
-        .attr("transform", "translate(20, -30)")
-        .call(y_axis);
+        .attr("transform", "translate(60, -30)")
+        .call(y_axis)
+
+    mySvg.append("text")
+        .attr('text-anchor', 'middle')
+        .attr("transform", function (d) {
+            return "rotate(-90)"
+        })
+        .attr("x", -60)
+        .attr("y", 30).text("Usage [%]");
 
 
 }
