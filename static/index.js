@@ -14,7 +14,7 @@ async function init() {
         const location_object = {"name": location, "usage": +data[location]}
         location_array.push(location_object);
 
-        if ((data[location] < best_value) && location != 'Wienerberg') {
+        if (data[location] < best_value) {
             best_value = data[location]
             best_name = location
         }
