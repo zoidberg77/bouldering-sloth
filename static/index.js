@@ -1,26 +1,28 @@
-const base_url = 'https://boulder.sidak.xyz'
+const base_url = 'https://boulder.sidak.xyz:5001'
 
 async function init() {
-
     const response = await fetch(base_url + '/status');
-    const data = await response.json();
 
-    let best_name = null;
-    let best_value = 110;
+    const data = await response.json();
 
     let location_array = [];
 
     for (let location in data) {
-        const location_object = {"name": location, "usage": +data[location]}
-        location_array.push(location_object);
-
-        if (data[location] < best_value) {
-            best_value = data[location]
-            best_name = location
+        let location_object = null;
+        if (location == "Blockfabrik") {
+            location_object = {"name": location, "usage": +data[location]}
+        } else {
+            const usage = (100 - (+data[location].slice(-2) * 2))
+            location_object = {"name": location, "usage": usage}
         }
+        location_array.push(location_object);
     }
 
-    document.getElementById('best').innerHTML = best_name + " wins!";
+    location_array.sort(function (a, b) {
+        return a.usage - b.usage
+    });
+
+    document.getElementById('best').innerHTML = location_array[0].name + " wins!";
 
     const svgHeight = 200;
     const svgWidth = 600;

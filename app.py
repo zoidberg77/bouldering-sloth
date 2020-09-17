@@ -1,29 +1,16 @@
-import csv
-
 import requests
 from flask import Flask, render_template
+from lxml import html
 
 app = Flask(__name__)
 
 
 def get_last_status():
-    url = 'http://81.189.135.217:8085/static/data/boulderbar.csv'
-    r = requests.get(url)
-    csv_summary = r.content.decode('utf-8')
+    page = requests.get('https://shop.boulderbar.net:8080/modules/bbext/CurrentCustomer.php')
+    tree = html.fromstring(page.content)
+    free_spaces = tree.xpath('//div[@class="text"]/text()')
 
-    cr = csv.reader(csv_summary.splitlines(), delimiter=';')
-
-    status = {}
-
-    for row in cr:
-        if row[1] == 'Hannovergasse':
-            status['Hannovergasse'] = row[3]
-        elif row[1] == 'Hauptbahnhof':
-            status['Hauptbahnhof'] = row[3]
-        elif row[1] == 'Wienerberg':
-            status['Wienerberg'] = row[3]
-        elif row[1] == 'Blockfabrik':
-            status['Blockfabrik'] = row[3]
+    status = {'Hannovergasse': free_spaces[0], 'Hauptbahnhof': free_spaces[1], 'Wienerberg': free_spaces[2]}
 
     return status
 
@@ -36,6 +23,7 @@ def index():
 @app.route('/status')
 def all_status():
     return get_last_status()
+
 
 @app.route('/status/<string:name>')
 def get_status(name):
