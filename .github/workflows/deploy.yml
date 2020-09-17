@@ -1,10 +1,16 @@
-- name: ssh_deploy
-  uses: appleboy/ssh-action@master
-  with:
-    host: ${{ secrets.HOST }}
-    username: ${{ secrets.USERNAME }}
-    key: ${{ secrets.KEY }}
-    port: ${{ secrets.PORT }}
-    script: |
-      whoami
-      ls -al
+name: build and deploy
+on: push
+jobs:
+  ssh_deploy:
+    name: ssh_deploy
+    runs-on: ubuntu-latest
+    steps:
+     name: SSH Remote Commands
+      uses: appleboy/ssh-action@v0.1.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.PORT }}
+        script: |
+          ls -al
