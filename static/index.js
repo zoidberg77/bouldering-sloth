@@ -1,4 +1,4 @@
-const base_url = 'https://boulder.sidak.xyz:5001'
+const base_url = 'https://boulder.sidak.xyz'
 
 async function init() {
     const response = await fetch(base_url + '/status');
