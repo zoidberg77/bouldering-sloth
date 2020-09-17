@@ -13,4 +13,9 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
         port: ${{ secrets.PORT }}
-        script: ls
+        script: |
+          docker stop bouldering_sloth
+          cd  bouldering-sloth/
+          git pull
+          docker build -t bouldering-sloth:latest .
+          docker run -d -p 5001:5000 --name bouldering_sloth bouldering-sloth:latest
