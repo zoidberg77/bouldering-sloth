@@ -15,6 +15,7 @@ jobs:
         port: ${{ secrets.PORT }}
         script: |
           docker stop bouldering_sloth
+          docker rm bouldering_sloth
           cd  bouldering-sloth/
           git pull
           docker build -t bouldering-sloth:latest .
